@@ -16,6 +16,11 @@ switch ($choice) {
         irm "https://get.activated.win" | iex
         break
     }
+    3 {
+        irm "https://raw.githubusercontent.com/lutvzn/scripts/refs/heads/master/powershell/Set-GitIdentity.ps1" | iex
+        break
+    }
+
     default {
         Write-Output "Invalid choice. Please enter either 1 or 2."
     }
