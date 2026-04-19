@@ -17,13 +17,18 @@ main() {
         bash <(curl -s https://raw.githubusercontent.com/0xLCT/scripts/master/shell/linux/zshsetup.sh)
     }
 
+    function6() {
+        echo "[6] Replace mkfs.btrfs with wrapper"
+        bash <(curl -s https://raw.githubusercontent.com/lutvzn/scripts/master/shell/linux/mkfsbtrfswrapper.sh)
+    }
+
     function9() {
         echo "[9] Flatpaks choosen"
         bash <(curl -s https://raw.githubusercontent.com/0xLCT/scripts/master/shell/linux/flatpaks.sh)
     }
 
 
-    printf "Linux Tools\n\nSelect an option 0-9 \n\n[1] Debian\n[2] Redhat\n[5] Setup ZSH\n[9] Install flatpaks\n[0] Exit\n "
+    printf "Linux Tools\n\nSelect an option 0-9 \n\n[1] Debian\n[2] Redhat\n[5] Setup ZSH\n[6] Replace mkfs.btrfs with wrapper\n[9] Install flatpaks\n[0] Exit\n "
     read num
 
     if [ "$num" -ge 0 ] && [ "$num" -le 9 ]; then
