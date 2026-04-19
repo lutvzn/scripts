@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REAL_MKFS="/usr/sbin/mkfs.btrfs"
+
+# Fall back if the binary lives elsewhere
+if [[ ! -x "$REAL_MKFS" ]]; then
+  REAL_MKFS="$(command -v mkfs.btrfs.real || true)"
+fi
+
+if [[ -z "${REAL_MKFS:-}" || ! -x "$REAL_MKFS" ]]; then
+  echo "Could not find the real mkfs.btrfs binary" >&2
+  exit 1
+fi
+
+have_csum=0
+for arg in "$@"; do
+  case "$arg" in
+    --csum|--checksum|--csum=*|--checksum=*)
+      have_csum=1
+      break
+      ;;
+  esac
+done
+
+if [[ "$have_csum" -eq 1 ]]; then
+  exec "$REAL_MKFS" "$@"
+else
+  exec "$REAL_MKFS" --csum xxhash "$@"
+fi
