@@ -2,7 +2,8 @@
 set -eu
 
 WRAPPER_URL="https://raw.githubusercontent.com/lutvzn/scripts/master/wrappers/mkfs.btrfs"
-TARGET_BIN="/usr/local/sbin/mkfs.btrfs"
+TARGET_BIN="/usr/sbin/mkfs.btrfs"
+REAL_BIN="/usr/sbin/mkfs.btrfs.real"
 
 if command -v sudo >/dev/null 2>&1; then
     SUDO="sudo"
@@ -15,8 +16,12 @@ if [ "$(id -u)" -ne 0 ] && [ -z "$SUDO" ]; then
     exit 1
 fi
 
+if [ -x "$TARGET_BIN" ] && [ ! -e "$REAL_BIN" ]; then
+    echo "Moving original mkfs.btrfs to $REAL_BIN..."
+    $SUDO mv "$TARGET_BIN" "$REAL_BIN"
+fi
+
 echo "Installing mkfs.btrfs wrapper to $TARGET_BIN..."
-$SUDO mkdir -p /usr/local/sbin
 $SUDO curl -fsSL "$WRAPPER_URL" -o "$TARGET_BIN"
 $SUDO chmod 755 "$TARGET_BIN"
 

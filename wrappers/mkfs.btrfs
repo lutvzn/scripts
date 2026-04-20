@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REAL_MKFS="/usr/sbin/mkfs.btrfs"
+REAL_MKFS="/usr/sbin/mkfs.btrfs.real"
 
 # Fall back if the binary lives elsewhere
 if [[ ! -x "$REAL_MKFS" ]]; then
